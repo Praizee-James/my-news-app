@@ -1,15 +1,17 @@
 import { Box,Typography, Card, CardContent, CardMedia  } from '@mui/material'
 import {type FC} from 'react'
 import type { NewsType } from '../utils/Types'
-
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 interface CarouselcardType{
     topHeadline : NewsType
+    toggleActive:(direction:'next'|'prev') => void;
 }
-const CarouselCard:FC <CarouselcardType> = ({topHeadline}) => {
+const CarouselCard:FC <CarouselcardType> = ({topHeadline,toggleActive}) => {
     if (!topHeadline) return null;
 
   return (
-    <Card className='grid grid-cols-2 border-2 shadow-none'>
+    <Card className='relative grid grid-cols-2 border-2 shadow-none'>
                 <Box className=' relative h-[360px]'>
                     
                    < CardMedia
@@ -38,6 +40,8 @@ const CarouselCard:FC <CarouselcardType> = ({topHeadline}) => {
                         </Typography>
                     </Box>
                 </CardContent>
+                <KeyboardArrowLeftIcon onClick ={() => toggleActive('prev')} className='absolute top-0 top-1/2 left-0 bg-neutral-800 text-white text-4xl rounded-full' />
+                <KeyboardArrowRightIcon onClick ={() => toggleActive('next')} className='absolute top-0 top-1/2 right-0 bg-neutral-800 text-white text-4xl rounded-full' />
             </Card>
   )
 }
