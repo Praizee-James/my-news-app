@@ -1,27 +1,34 @@
 import { type FC } from 'react'
-import { Box, Card, CardContent, Typography } from '@mui/material'
-const NewsCard: FC = () => {
+import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material'
+import type { NewsType } from '../utils/Types'
+interface NewsCardProps {
+    news : NewsType[]
+}
+const NewsCard: FC<NewsCardProps> = ({news}) => {
     return (
         <Box>
             
                         <Box className='grid grid-cols-5  gap-3 '>
                             {
-                                [...Array(5)].map((_, ind) =>
-                                    <Card key={ind}>
-                                        <Box className='bg-red-300 aspect-(16/9)  h-[180px]' />
-                                        <CardContent className='relative '>
+                                news.slice(0,5).map((item, ind) =>
+                                    <Card key={ind} className='relative shadow-none border-2 '>
+                                        <CardMedia
+                                        className='aspect-[16/9] h-[130px]'
+                                        component='img'
+                                        image={item.urlToImage}/>
+                                        <CardContent className=' mb-12'>
                                             <Typography className='text-[16px] font-serif line-clamp-4'>
-                                                It has survived not only five centuries, but also the leap into electronic typesetting.
+                                                {item?.title}
                                             </Typography>
                                             <Typography className='text-[14px] font-serif line-clamp-4'>
-                                                It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                                {item?.description}
                                             </Typography>
-                                            <Box className=''>
+                                            <Box className='absolute bottom-2'>
                                                 <Typography className='text-[14px] font-serif '>
-                                                    Source:CBC News
+                                                    Source:{item.source.name}
                                                 </Typography>
                                                 <Typography className='text-[14px] font-serif '>
-                                                    date: 11/11/2025
+                                                    Date:{new Date(item.publishedAt).toLocaleDateString()}
                                                 </Typography>
                                             </Box>
                                         </CardContent>

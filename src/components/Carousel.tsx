@@ -13,12 +13,12 @@ const Carousel: FC = () => {
     const [topHeadlines, setTopHeadlines] = useState<NewsType[]>([])
     const fetchTopHeadlines = async () => {
         const response = await getTopHeadlines()
-console.log(response)
-if (response.data){
-    const filterHeadlines = response?.data?.articles.filter(
-        (res:NewsType)=> res.urlToImage !=null)
-        setTopHeadlines(filterHeadlines)
-}
+        console.log(response)
+        if (response.data) {
+            const filterHeadlines = response?.data?.articles.filter(
+                (res: NewsType) => res.urlToImage != null)
+            setTopHeadlines(filterHeadlines)
+        }
     }
     const toggleActive = (direction: 'next' | 'prev') => {
         if (direction === 'next') {

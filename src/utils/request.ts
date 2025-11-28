@@ -8,8 +8,8 @@ export interface ApiResponse<T>{
 data?:T;
 error?: RequestError | undefined
 }
-export const getRequests = async<T> ():Promise<ApiResponse<T>> => {
-    const url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=7ee071e6abf1451293a273deebbac01b'
+export const getRequests = async<T> (url:string):Promise<ApiResponse<T>> => {
+    
     try {
         
        const response = await axios.get<T>(url) 
