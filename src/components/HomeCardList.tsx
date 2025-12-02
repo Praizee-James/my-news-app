@@ -1,5 +1,5 @@
 import { useEffect, useState, type FC } from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import NewsCard from './NewsCard'
 
 import HeaderSection from './HeaderSection'
@@ -13,26 +13,56 @@ interface HomeCardListProps {
 const HomeCardList: FC<HomeCardListProps> = ({ category }) => {
 
     const [catNews, setCatNews] = useState<NewsType[]>([])
+    const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
     const fetchCategoryNews = async () => {
+        setLoading(true)
+         setError(null)
         const response = await getTopHeadlines(category)
-        if(response.data){
-             const filterCatNews = response?.data?.articles.filter(
+        if (response.data) {
+            const filterCatNews = response?.data?.articles.filter(
                 (res: NewsType) => res.urlToImage != null)
-            setCatNews(filterCatNews )
+            setCatNews(filterCatNews)
+            setLoading(false)
+           
+        }
+        if(response.error){
+            setError(response.error.message || "Failed to Fetch")
         }
     }
-    
+
     useEffect(() => {
         fetchCategoryNews()
     }, [])
 
-    
+
     return (
-        <Box>
-            {/* NewsCardList */}
-            <HeaderSection title={category} />
-            <NewsCard news ={catNews} />
-        </Box>
+        <>
+         <HeaderSection title={category} />
+        {
+            error ? <Typography color='error' className=''>{error}</Typography>
+            :
+            <>
+             { loading ?
+                <Box>
+                   
+                    <Typography>Loading</Typography>
+                </Box>
+
+                :
+                <Box>
+                    {/* NewsCardList */}
+                    
+                    <NewsCard news={catNews} />
+                </Box>
+
+            }
+            </>
+        }
+       
+           
+
+        </>
     )
 }
 
