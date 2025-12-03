@@ -17,16 +17,16 @@ const HomeCardList: FC<HomeCardListProps> = ({ category }) => {
     const [loading, setLoading] = useState<boolean>(true)
     const fetchCategoryNews = async () => {
         setLoading(true)
-         setError(null)
+        setError(null)
         const response = await getTopHeadlines(category)
         if (response.data) {
             const filterCatNews = response?.data?.articles.filter(
                 (res: NewsType) => res.urlToImage != null)
             setCatNews(filterCatNews)
             setLoading(false)
-           
+
         }
-        if(response.error){
+        if (response.error) {
             setError(response.error.message || "Failed to Fetch")
         }
     }
@@ -38,29 +38,35 @@ const HomeCardList: FC<HomeCardListProps> = ({ category }) => {
 
     return (
         <>
-         <HeaderSection title={category} />
-        {
-            error ? <Typography color='error' className=''>{error}</Typography>
-            :
-            <>
-             { loading ?
-                <Box>
-                   
-                    <Typography>Loading</Typography>
-                </Box>
+            <HeaderSection title={category} />
+            {
+                error ? <Typography color='error' className=''>{error}</Typography>
+                    :
+                    <>
+                        {loading ?
+                            <Box>
 
-                :
-                <Box>
-                    {/* NewsCardList */}
-                    
-                    <NewsCard news={catNews} />
-                </Box>
+                                <Typography>Loading</Typography>
+                            </Box>
 
+                            :
+                            <Box>
+                                {/* NewsCardList */}
+                                <Box className='grid grid-cols-5  gap-3 '>
+                                    {
+                                        catNews.slice(0, 5).map((item, ind) =>
+                                            <NewsCard key={ind} item={item} />
+                                        )
+                                    }
+
+                                </Box>
+                            </Box>
+
+                        }
+                    </>
             }
-            </>
-        }
-       
-           
+
+
 
         </>
     )
