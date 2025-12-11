@@ -1,12 +1,29 @@
 import { Box, InputBase, Typography, Divider, ButtonGroup, Button } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-import { type FC } from "react";
+import { useState,type KeyboardEvent, type ChangeEvent, type FC } from "react";
 import { categories } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { Category } from "@mui/icons-material";
 
 
 const Navbar: FC = () => {
 const navigate = useNavigate()
+const [search,setSearch] =useState<string>('')
+const handleChange =(e:ChangeEvent<HTMLInputElement>)=>{
+    setSearch(e.target.value)
+}
+const handleKeyPress =(e:KeyboardEvent<HTMLInputElement>)=>{
+    if(e.key === 'Enter'){
+e.preventDefault()
+setSearch('')
+navigate('/search',{state:{title:`What we found for ${search}`,query:search}})
+    }
+}
+const handleSearchIconClick =() => {
+    setSearch('')
+    navigate('/search',{state:{title:`What we found for ${search}`,query:search}})
+
+}
     return (
 
         <div className='bg-blue-900 text-white gap-3 items-center'>
@@ -21,9 +38,13 @@ const navigate = useNavigate()
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', color: 'c2c2c2', gap: 2, px: 4, borderRadius: '999px' }} className='bg-blue-800'>
-                    <SearchIcon />
+                    <SearchIcon onClick={handleSearchIconClick}  />
                     <Divider orientation="vertical" variant="middle" flexItem sx={{ bgcolor: 'gray' }} />
-                    <InputBase sx={{
+                    <InputBase
+                    value={search}
+                    onChange ={handleChange}
+                    onKeyDown={handleKeyPress}
+                    sx={{
                         color: 'white', width: '350px', height: '[2.5rem]', fontSize: '1rem', fontFamily: 'serif', '&::placeholder': {
                             color: '#646464'
                         }

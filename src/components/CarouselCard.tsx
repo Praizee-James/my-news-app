@@ -1,8 +1,9 @@
-import { Box,Typography, Card, CardContent, CardMedia  } from '@mui/material'
+import { Box,Typography, Card, CardContent, CardMedia,Link  } from '@mui/material'
 import {type FC} from 'react'
 import type { NewsType } from '../utils/Types'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import {Link as RouterLink} from 'react-router-dom'
 interface CarouselcardType{
     topHeadline : NewsType
     toggleActive:(direction:'next'|'prev') => void;
@@ -11,6 +12,13 @@ const CarouselCard:FC <CarouselcardType> = ({topHeadline,toggleActive}) => {
     if (!topHeadline) return null;
 
   return (
+    <Box className ='relative'>
+    <Link
+    component={RouterLink}
+            to={topHeadline.url}
+            underline="none"
+            sx={{ textDecoration: "none" }}
+    >
     <Card className='relative grid grid-cols-2 border-2 shadow-none'>
                 <Box className=' relative h-[360px]'>
                     
@@ -40,9 +48,12 @@ const CarouselCard:FC <CarouselcardType> = ({topHeadline,toggleActive}) => {
                         </Typography>
                     </Box>
                 </CardContent>
-                <KeyboardArrowLeftIcon onClick ={() => toggleActive('prev')} className='absolute top-0 top-1/2 left-0 bg-neutral-800 text-white text-4xl rounded-full' />
-                <KeyboardArrowRightIcon onClick ={() => toggleActive('next')} className='absolute top-0 top-1/2 right-0 bg-neutral-800 text-white text-4xl rounded-full' />
+                
             </Card>
+            </Link>
+            <KeyboardArrowLeftIcon onClick ={() => toggleActive('prev')} className='absolute top-0 top-1/2 left-0 bg-neutral-800 text-white text-4xl rounded-full' />
+                <KeyboardArrowRightIcon onClick ={() => toggleActive('next')} className='absolute top-0 top-1/2 right-0 bg-neutral-800 text-white text-4xl rounded-full' />
+                </Box>
   )
 }
 

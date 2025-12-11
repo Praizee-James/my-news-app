@@ -1,15 +1,19 @@
 import { type FC } from 'react'
-import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, Typography,Link} from '@mui/material'
 import type { NewsType } from '../utils/Types'
+import {Link as RouterLink} from 'react-router-dom'
 interface NewsCardProps {
     item : NewsType
 }
 const NewsCard: FC<NewsCardProps> = ({item}) => {
     return (
-        <Box>
-            
-                        
-                                    <Card  className='relative shadow-none border-2 '>
+         <Link 
+            component={RouterLink}
+            to={item.url}
+            underline="none"
+            sx={{ textDecoration: "none" }}
+        >
+                                    <Card  className='relative shadow-none border-2 h-[450px]'>
                                         <CardMedia
                                         className='aspect-[16/9] h-[130px]'
                                         component='img'
@@ -35,7 +39,7 @@ const NewsCard: FC<NewsCardProps> = ({item}) => {
                     
                 
             
-        </Box>
+        </Link>
     )
 
 }
