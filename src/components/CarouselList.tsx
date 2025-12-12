@@ -19,7 +19,7 @@ const CarouselList: FC<CarouselListProps> = ({ topHeadLines, active }) => {
     }
     const nextFiveHeadlines = getNextFive(active, topHeadLines)
     return (
-        <Box className='grid grid-cols-5 gap-3 mt-8'>
+        <Box className='grid xl:grid-cols-5 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-8'>
             {
                 nextFiveHeadlines?.map((item, ind) => (
                     <Grid key={ind}>
@@ -36,7 +36,7 @@ const CarouselList: FC<CarouselListProps> = ({ topHeadLines, active }) => {
                                     image={topHeadLines[item]?.urlToImage}
                                 />
                                 <Box className='_carouselGradient' sx={{ position: 'absolute', bottom: 0, height: '70px', width: '100%' }} />
-                                <Typography sx={{ fontFamily: 'serif' }} className='absolute bottom-1 text-white text-[17px] line-clamp-3 px-6  '>
+                                <Typography sx={{ fontFamily: 'serif' }} className='absolute bottom-1 text-white md:text-[17px] sm:text-[15px] text-[14px]  line-clamp-3 px-6  '>
                                     {topHeadLines[item]?.title}
                                 </Typography>
                             </Card>

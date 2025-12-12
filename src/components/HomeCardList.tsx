@@ -5,6 +5,7 @@ import NewsCard from './NewsCard'
 import HeaderSection from './HeaderSection'
 import { getTopHeadlines } from '../utils/api'
 import type { NewsType } from '../utils/Types'
+import NewsCardSkeleton from './Skeletons/NewsCardSkeleton'
 
 interface HomeCardListProps {
     category: string
@@ -43,16 +44,18 @@ const HomeCardList: FC<HomeCardListProps> = ({ category }) => {
                 error ? <Typography color='error' className=''>{error}</Typography>
                     :
                     <>
-                        {loading ?
-                            <Box>
+                        {loading 
+                        ?
+                            <Box className='grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3 '>
+                                {[...Array(5)].map((_, ind) => (
+                                    <NewsCardSkeleton key={ind} />
+                                ))}
 
-                                <Typography>Loading</Typography>
                             </Box>
-
                             :
                             <Box>
                                 {/* NewsCardList */}
-                                <Box className='grid grid-cols-5  gap-3 '>
+                                <Box className='grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3 '>
                                     {
                                         catNews.slice(0, 5).map((item, ind) =>
                                             <NewsCard key={ind} item={item} />

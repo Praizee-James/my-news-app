@@ -6,6 +6,8 @@ import CarouselList from "./CarouselList";
 
 import type { NewsType } from "../utils/Types";
 import { getTopHeadlines } from "../utils/api";
+import CarouselCardSkeleton from "./Skeletons/CarouselCardSkeleton";
+import CarouselListSkeleton from "./Skeletons/CarouselListSkeleton";
 
 
 const Carousel: FC = () => {
@@ -50,12 +52,18 @@ const Carousel: FC = () => {
                      :
                      <>
                      {loading ?
-                    <Typography>Loading</Typography>
+                     <>
+                     <CarouselCardSkeleton/>
+                   <CarouselListSkeleton/>
+                     </>
+                   
                     :
                     <Box>
                         <CarouselCard
                             toggleActive={toggleActive}
                             topHeadline={topHeadlines[active]} />
+
+                          
                         {/* Carousel list */}
                         <CarouselList
                             active={active}

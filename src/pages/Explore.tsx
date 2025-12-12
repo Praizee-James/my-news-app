@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import type { NewsType } from '../utils/Types'
 import { getTopHeadlines } from '../utils/api'
 import ExploreCardList from '../components/ExploreCardList'
+import NewsCardSkeleton from '../components/Skeletons/NewsCardSkeleton'
 
 interface CategoryDataType {
     [key: string]: { articles: NewsType[], pageNo: number }
@@ -56,34 +57,38 @@ const Explore: FC = () => {
     }, [categoryData])
     return (
         <Container maxWidth={false} className='text-blue-700 w-[90%] mt-5 mb-10'>
-            <Typography variant='h4' sx={{ fontFamily: 'serif', cursor: 'pointer', mb: 1 }}>
+            <Typography variant='h4' sx={{ fontSize: { md: '2.20rem', xs: '1.5rem' }, fontFamily: 'serif', cursor: 'pointer', mb: 1 }}>
                 {category}
             </Typography>
             {
                 error && <Typography color='error' mb={3}>
-                    { error }
+                    {error}
                 </Typography>
             }
-            {
-                loading ?  <Typography mb={3}>
-                    { loading }
-                </Typography> :
-                <>{
-                categoryData[category]?.articles.length > 0 &&
-                <ExploreCardList list={categoryData[category]?.articles} />
-            }
-            <Box display='flex' justifyContent='center' marginTop={4}>
-                {
-                    loadMore &&
-                    <Button variant='contained' disableElevation className='bg-blue-800' onClick={() => fetchNews()}>
-                        Load more
-                    </Button>
-                }
 
-            </Box>
-            </>
+            <>{
+                categoryData[category]?.articles.length > 0 
+                ?
+                <ExploreCardList loading={loading} list={categoryData[category]?.articles} />
+                :
+                <Box className='grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2  gap-3 '>
+                    {[...Array(20)].map((_, ind) => (
+                        <NewsCardSkeleton key={ind} />
+                    ))}
+                </Box>
             }
-            
+                <Box display='flex' justifyContent='center' marginTop={4}>
+                    {
+                        loadMore &&
+                        <Button variant='contained' disableElevation className='bg-blue-800' onClick={() => fetchNews()}>
+                            Load more
+                        </Button>
+                    }
+
+                </Box>
+            </>
+
+
 
         </Container >
     )
