@@ -1,5 +1,9 @@
-// /api/search.ts
-export default async function handler(req, res) {
+import type { VercelRequest, VercelResponse } from 'vercel'
+
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse
+) {
   const { q, page = 1 } = req.query
 
   if (!q) {
@@ -12,7 +16,7 @@ export default async function handler(req, res) {
     const response = await fetch(url)
     const data = await response.json()
     res.status(200).json(data)
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: "Failed to fetch search news" })
   }
 }
